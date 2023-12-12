@@ -71,18 +71,19 @@ class Matrix {
         }
 
         void box_bluring(int kernelSize=5){
-            // * EDGES ESTÃO SENDO DESCONSIDERADOS
-            // * MULTIPLICAR A MATRIZ
+            // ? EDGES ESTÃO SENDO CONSIDERADAS = 0
+            // ? MULTIPLICAR A MATRIZ
             int metade_kernel = kernelSize/2;
             for (int linha = 0; linha < i; ++linha){
                 for (int coluna = 0; coluna < j; ++coluna){
                     long int total = 0;
+                    #pragma omp parallel for reduction(+:total)
                     for (int linha_r = -metade_kernel; linha_r <= metade_kernel; linha_r++){
                         if (!(linha + linha_r < 0 || linha + linha_r > i-1)){
                             for (int coluna_r = -metade_kernel; coluna_r <= metade_kernel; coluna_r++){
                                 if (!(coluna + coluna_r < 0 || coluna + coluna_r > j-1)){
-                                // linha = linha - 1; linha - 0; linha + 1
-                                // coluna = coluna - 1; coluna - 0; coluna + 1
+                                // ? linha = linha - 1; linha - 0; linha + 1
+                                // ? coluna = coluna - 1; coluna - 0; coluna + 1
 
                                     total += matrix[linha + linha_r][coluna + coluna_r];
                                 }
@@ -129,6 +130,7 @@ class Matrix {
             printf("Sigma: %f\n", sigma);
 
             // Calculando kernel preliminar
+            #pragma omp parallel for reduction(+:total)
             for (int k = 0; k < kernelSize; k++){
                 for (int l = 0; l < kernelSize; l++){
                     double gauss_part1 = 1/(2*M_PI*pow(sigma,2));
@@ -143,12 +145,11 @@ class Matrix {
 
             // Equilibrando kernel para que sua soma dê 1
             double total_soma = 0;
+            #pragma omp parallel for reduction(+:total_soma)
             for (int k = 0; k < kernelSize; k++){
                 for (int l = 0; l < kernelSize; l++){
                     kernel[k][l] = (kernel[k][l])/total;
                     total_soma+=kernel[k][l];
-                    
-
                 }   
             }
             printf("soma total: %f\n", total_soma);

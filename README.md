@@ -2,7 +2,7 @@
 
 # openCV
 
-## Instalação e configuração (linux)
+## Instalação e configuração (linux)s
 Instalei a biblioteca libopencv-dev:
 >sudo apt install libopencv-dev
 
@@ -16,3 +16,7 @@ Se der o erro que a flag de desenvolvimento não estiver configurada basta:
 
 E então compilar o código da seguinte maneira:
 >g++ main.cpp -o a.out `pkg-config --cflags --libs opencv4`
+
+## openMP
+
+Só adicionar a diretiva `-fopenmp` no final da linha de compilação

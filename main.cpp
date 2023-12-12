@@ -67,9 +67,11 @@ int main()
     // IMREAD_GRAYSCALE
     // IMREAD_COLOR
     
-    image = imread("images/gato.jpg", IMREAD_GRAYSCALE);   // Read the file
+    image = imread("images/gatobig.jpg", IMREAD_GRAYSCALE);   // Read the file
     cout << "Width : " << image.cols << endl;
     cout << "Height: " << image.rows << endl;
+
+    // * Para mostrar a imagem original descomentar as linhas abaixo
 
     namedWindow("O GATO", WINDOW_NORMAL);
     resizeWindow("O GATO",400,400);
